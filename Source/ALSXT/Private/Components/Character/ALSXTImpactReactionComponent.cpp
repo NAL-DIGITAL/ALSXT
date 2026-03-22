@@ -16,6 +16,7 @@
 #include "Interfaces/AlsxtAIInterface.h"
 #include "Interfaces/AlsxtCombatInterface.h"
 #include "Interfaces/AlsxtCollisionInterface.h"
+#include "Settings/AlsxtImpactReactionSettings.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Engine/DecalActor.h"
@@ -80,9 +81,21 @@ void UAlsxtImpactReactionComponent::BeginPlay()
 	ClutchImpactPointTimerDelegate.BindUFunction(this, "ClutchImpactPointTimer");
 	OnCapsuleHitTimerDelegate.BindUFunction(this, "OnCapsuleHitTimer");
 
-	RefreshBlockingPoses();
-	RefreshObstacleNavigationPoses();
-	RefreshCrowdNavigationPoses();
+	// Guard: skip initialization if ImpactReactionSettings not configured on owner
+	if (GetOwner() && GetOwner()->Implements<UAlsxtCollisionInterface>())
+	{
+		UAlsxtImpactReactionSettings* ImpactSettings = IAlsxtCollisionInterface::Execute_SelectImpactReactionSettings(GetOwner());
+		if (ImpactSettings)
+		{
+			RefreshBlockingPoses();
+			RefreshObstacleNavigationPoses();
+			RefreshCrowdNavigationPoses();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("ALSXTImpactReactionComponent: ImpactReactionSettings not configured on %s. Skipping init."), *GetOwner()->GetName());
+		}
+	}
 }
 
 // Called every frame
@@ -7189,7 +7202,7 @@ void UAlsxtImpactReactionComponent::RefreshImpactReactionPhysics(const float Del
 	}
 	else
 	{
-		TargetRotation.Yaw = UAlsRotation::ExponentialDecayAngle(UE_REAL_TO_FLOAT(FRotator::NormalizeAxis(TargetRotation.Yaw)),
+		TargetRotation.Yaw = UAlsRotation::DamperExactAngle(UE_REAL_TO_FLOAT(FRotator::NormalizeAxis(TargetRotation.Yaw)),
 			ImpactReactionState.ImpactReactionParameters.TargetYawAngle, DeltaTime,
 			ImpactReactionSettings.RotationInterpolationSpeed);
 
