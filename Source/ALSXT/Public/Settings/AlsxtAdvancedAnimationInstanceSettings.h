@@ -7,7 +7,7 @@
 #include "ALS/Public/Settings/AlsRotateInPlaceSettings.h"
 #include "ALS/Public/Settings/AlsTransitionsSettings.h"
 #include "ALS/Public/Settings/AlsTurnInPlaceSettings.h"
-#include "ALS/Public/Settings/AlsViewAnimationSettings.h"
+#include "ALS/Public/Settings/AlsViewSettings.h"
 #include "Engine/DataAsset.h"
 #include "AlsxtAdvancedAnimationInstanceSettings.generated.h"
 

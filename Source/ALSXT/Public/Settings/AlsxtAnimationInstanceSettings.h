@@ -9,7 +9,7 @@
 #include "ALS/Public/Settings/AlsRotateInPlaceSettings.h"
 #include "ALS/Public/Settings/AlsTransitionsSettings.h"
 #include "ALS/Public/Settings/AlsTurnInPlaceSettings.h"
-#include "ALS/Public/Settings/AlsViewAnimationSettings.h"
+#include "ALS/Public/Settings/AlsViewSettings.h"
 #include "Engine/DataAsset.h"
 #include "AlsxtAnimationInstanceSettings.generated.h"
 
@@ -26,7 +26,7 @@ public:
 	FAlsGeneralAnimationSettings General;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	FAlsViewAnimationSettings View;
+	FAlsViewSettings View;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	FAlsGroundedSettings Grounded;

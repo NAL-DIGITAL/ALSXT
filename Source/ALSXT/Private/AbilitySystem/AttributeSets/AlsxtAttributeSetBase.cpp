@@ -42,8 +42,7 @@ void UAlsxtAttributeSetBase::CheckMaxReachedForAttribute(const FGameplayAttribut
 
 	if (Count >= 0)
 	{
-		ASC->SetLooseGameplayTagCount(MaxTag, Count);
-		ASC->SetReplicatedLooseGameplayTagCount(MaxTag, Count);
+		ASC->SetLooseGameplayTagCount(MaxTag, Count, EGameplayTagReplicationState::TagAndCountToAll);
 	}
 }
 
@@ -68,8 +67,7 @@ void UAlsxtAttributeSetBase::CheckStatusTagForAttribute(const FGameplayTag& Stat
 
 	if (Count >= 0)
 	{
-		ASC->SetLooseGameplayTagCount(StatusTag, Count);
-		ASC->SetReplicatedLooseGameplayTagCount(StatusTag, Count);
+		ASC->SetLooseGameplayTagCount(StatusTag, Count, EGameplayTagReplicationState::TagAndCountToAll);
 	}
 }
 
